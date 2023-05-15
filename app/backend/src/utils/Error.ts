@@ -1,6 +1,6 @@
 import { Error } from 'sequelize';
 
-export default class errorHandler extends Error {
+export default class error extends Error {
   protected _status: number;
   protected _message: string;
 
