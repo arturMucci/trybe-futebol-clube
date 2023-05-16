@@ -26,8 +26,6 @@ export default class LoginController {
       const token = await LoginService.Login(email, password);
       return res.status(200).json({ token });
     } catch (error) {
-      console.log(error);
-
       return next(error);
     }
   }
