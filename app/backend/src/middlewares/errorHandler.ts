@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import error from '../utils/Error';
+import HttpError from '../utils/HttpError';
 
 export default function errorHandler(
-  Error: error,
+  Error: HttpError,
   _req: Request,
   res: Response,
   _next: NextFunction,

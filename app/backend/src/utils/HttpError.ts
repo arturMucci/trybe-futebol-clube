@@ -1,6 +1,4 @@
-import { Error } from 'sequelize';
-
-export default class error extends Error {
+export default class HttpError extends Error {
   private _status: number;
 
   constructor(status: number, message: string) {

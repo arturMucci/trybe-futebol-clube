@@ -1,6 +1,6 @@
 import { sign, verify } from 'jsonwebtoken';
 import IJwtPayload from '../database/interfaces/IJwtPayload';
-import Error from './Error';
+import Error from './HttpError';
 
 const secret = process.env.JWT_SECRET || 'insecure';
 
