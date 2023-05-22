@@ -57,7 +57,7 @@ export default class MatchesService {
       where: {
         id,
       },
-    }); 2 4 7 9 11 14 19 22
+    });
 
     return [+result];
   }
