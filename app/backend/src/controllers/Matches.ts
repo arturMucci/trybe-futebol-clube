@@ -22,7 +22,11 @@ export default class MatchesController {
     next: NextFunction,
   ) {
     try {
-      const newMatch = await MatchesService.newMatch({ ...req.body, inProgress: true });
+      const newMatch = await MatchesService
+        .newMatch({
+          ...req.body,
+          inProgress: true,
+        });
       return res.status(201).json(newMatch);
     } catch (error) {
       return next(error);

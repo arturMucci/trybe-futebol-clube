@@ -1,1 +1,3 @@
 node-mocks-http
+chai-as-promised
+@types/chai-as-promised

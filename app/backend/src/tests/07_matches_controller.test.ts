@@ -12,6 +12,8 @@ import MatchesService from '../services/Matches';
 import updateMatch from './mocks/responses/updateMatch';
 import newMatch from './mocks/responses/newMatch';
 import * as Auth from '../utils/auth';
+import TeamsService from '../services/Teams';
+import allTeamsResponse from './mocks/responses/allTeams';
 
 const { expect } = chai;
 
@@ -37,17 +39,17 @@ describe('07 - Testa a camada de "MatchesController"', () => {
   it('02 - Testa um caso de sucesso de "newMatch"', async () => {
     const matchesServiceNewMatch = sinon.stub(MatchesService, 'newMatch');
     const verifyToken = sinon.stub(Auth, 'verifyToken');
+    const serviceGetById = sinon.stub(TeamsService, 'getById');
 
     matchesServiceNewMatch.resolves(createdMatch);
     verifyToken.returns(1);
+    serviceGetById.withArgs(10).resolves(allTeamsResponse[0]);
+    serviceGetById.withArgs(11).resolves(allTeamsResponse[1]);
 
     //@ts-ignore
     chaiHttpResponse = await chai.request(app)
       .post('/matches')
-      .set(
-        'authorization',
-        'valid_token',
-      )
+      .set('authorization', 'valid_token')
       .send(newMatch);
 
     expect(chaiHttpResponse.status).to.be.equal(201);
@@ -88,11 +90,11 @@ describe('07 - Testa a camada de "MatchesController"', () => {
   });
 
   it('04 - Testa um caso de sucesso de "finishMatch"', async () => {
-    const matchesServiceNewMatch = sinon.stub(MatchesService, 'newMatch');
     const verifyToken = sinon.stub(Auth, 'verifyToken');
+    const matchesServiceNewMatch = sinon.stub(MatchesService, 'finishMatch');
 
-    matchesServiceNewMatch.resolves(createdMatch);
-    verifyToken.returns(1);
+    verifyToken.withArgs('valid_token').returns(41);
+    matchesServiceNewMatch.withArgs(41).resolves({ message: 'Finished' });
 
     //@ts-ignore
     chaiHttpResponse = await chai.request(app)
