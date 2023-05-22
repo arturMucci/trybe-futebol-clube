@@ -36,8 +36,14 @@ export default class MatchesController {
   ) {
     try {
       const { id } = req.params;
-      await MatchesService.attMatch(+id, req.body);
-      return res.status(200).json({ ...req.body });
+      const result = await MatchesService.attMatch(+id, req.body);
+      return res.status(200).json({
+        message: 'updated',
+        affected: {
+          id: result,
+          ...req.body,
+        },
+      });
     } catch (error) {
       return next(error);
     }
@@ -51,8 +57,8 @@ export default class MatchesController {
     try {
       const { id } = req.params;
 
-      await MatchesService.finishMatch(+id);
-      return res.status(200).json({ message: 'Finished' });
+      const result = await MatchesService.finishMatch(+id);
+      return res.status(200).json(result);
     } catch (error) {
       return next(error);
     }

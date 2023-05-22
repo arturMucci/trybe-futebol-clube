@@ -1,40 +1,39 @@
 import * as Bcrypt from 'bcryptjs';
-import * as createError from 'http-errors';
+import IUser from '../database/interfaces/IUser';
 import { generateToken, verifyToken } from '../utils/auth';
 import Users from '../database/models/Users';
+import Error from '../utils/Error';
 
 export default class LoginService {
-  public static async verifyCredentials(
-    email: string,
-    password: string,
-  ): Promise<string> {
-    const userExist = await Users.findOne({ where: { email } });
-    if (!userExist) throw createError(401, 'Invalid email or password');
-
-    const passwordIsTrue = await Bcrypt.compare(password, userExist.password);
-
-    if (!passwordIsTrue) throw createError(401, 'Invalid email or password');
-
-    return generateToken(userExist.id);
-  }
-
   public static async Login(
     email: string,
     password: string,
   ): Promise<string> {
-    const token = await LoginService.verifyCredentials(email, password);
+    const id = await LoginService.verifyCredentials(email, password);
 
-    return token;
+    return generateToken(id);
   }
 
   public static async getRole(
     token: string,
   ): Promise<string | undefined> {
-    const id = verifyToken(token);
+    const user = await Users.findByPk(verifyToken(token)) as IUser;
 
-    if (!id) throw createError(401, 'Token must be a valid token');
-    const user = await Users.findByPk(id);
+    return user.role;
+  }
 
-    return user?.role;
+  public static async verifyCredentials(
+    email: string,
+    password: string,
+  ): Promise<number> {
+    const userExist = await Users.findOne({ where: { email } });
+
+    if (!userExist) throw new Error(401, 'Invalid email or password');
+
+    const passwordIsTrue = await Bcrypt.compare(password, userExist.password);
+
+    if (!passwordIsTrue) throw new Error(401, 'Invalid email or password');
+
+    return userExist.id;
   }
 }

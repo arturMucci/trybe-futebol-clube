@@ -1,20 +1,14 @@
 import { Error } from 'sequelize';
 
 export default class error extends Error {
-  protected _status: number;
-  protected _message: string;
+  private _status: number;
 
   constructor(status: number, message: string) {
-    super();
+    super(message);
     this._status = status;
-    this._message = message;
   }
 
-  get status(): number {
+  public get status(): number {
     return this._status;
-  }
-
-  get message(): string {
-    return this._message;
   }
 }

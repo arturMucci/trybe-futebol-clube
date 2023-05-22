@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import TeamsRouter from './Routes/TeamsRouter';
 import LoginRouter from './Routes/LoginRouter';
 import MatchesRouter from './Routes/MatchesRouter';
@@ -30,6 +30,7 @@ class App {
     this.app.use('/login', LoginRouter);
     this.app.use('/teams', TeamsRouter);
     this.app.use('/matches', MatchesRouter);
+
     this.app.use(errorHandler);
   }
 

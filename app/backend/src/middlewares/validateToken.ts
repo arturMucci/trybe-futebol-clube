@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
-import createHttpError = require('http-errors');
+import Error from '../utils/Error';
 import { verifyToken } from '../utils/auth';
 
-export default function validateToken(req: Request, res: Response, next: NextFunction) {
-  if (!req.headers.authorization) return res.status(401).json({ message: 'Token not found' });
+export default function validateToken(req: Request, _res: Response, next: NextFunction) {
+  if (!req.headers.authorization) return next(new Error(401, 'Token not found'));
 
   const matchId = verifyToken(req.headers.authorization);
 
-  if (!matchId) throw createHttpError(401, 'Token must be a valid token');
+  if (!matchId) return next(new Error(401, 'Token must be a valid token'));
 
   return next();
 }

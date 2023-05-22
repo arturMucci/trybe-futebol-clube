@@ -5,16 +5,16 @@ import LoginController from '../controllers/Login';
 
 const LoginRouter = express.Router();
 
-LoginRouter.get(
-  '/role',
-  validateToken,
-  LoginController.getRole,
-);
-
 LoginRouter.post(
   '/',
   validateLogin,
   LoginController.Login,
+);
+
+LoginRouter.get(
+  '/role',
+  validateToken,
+  LoginController.getRole,
 );
 
 export default LoginRouter;

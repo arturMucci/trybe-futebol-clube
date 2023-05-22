@@ -1,8 +1,9 @@
+import Matches from '../database/models/Matches';
 import Teams from '../database/models/Teams';
 import IMatch from '../database/interfaces/IMatch';
-import Matches from '../database/models/Matches';
-import IScore from '../database/interfaces/IScore';
+import IMatchFinished from '../database/interfaces/IMatchFinished';
 import IMatchBody from '../database/interfaces/IMatchBody';
+import IScore from '../database/interfaces/IScore';
 
 export default class MatchesService {
   public static async getAll(inProgress: string): Promise<IMatch[]> {
@@ -48,18 +49,20 @@ export default class MatchesService {
       homeTeamGoals,
       awayTeamGoals,
     }: IScore,
-  ): Promise<void> {
-    await Matches.update({
+  ): Promise<number[]> {
+    const result = await Matches.update({
       homeTeamGoals,
       awayTeamGoals,
     }, {
       where: {
         id,
       },
-    });
+    }); 2 4 7 9 11 14 19 22
+
+    return [+result];
   }
 
-  public static async finishMatch(id: number) {
+  public static async finishMatch(id: number): Promise<IMatchFinished> {
     await Matches.update({
       inProgress: false,
     }, {
@@ -67,5 +70,7 @@ export default class MatchesService {
         id,
       },
     });
+
+    return { message: 'Finished' };
   }
 }

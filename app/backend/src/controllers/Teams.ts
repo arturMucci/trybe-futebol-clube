@@ -9,6 +9,7 @@ export default class TeamsController {
   ) {
     try {
       const teams = await TeamsService.getAll();
+
       return res.status(200).json(teams);
     } catch (error) {
       return next(error);
@@ -25,8 +26,6 @@ export default class TeamsController {
       const teamById = await TeamsService.getById(+id);
       return res.status(200).json(teamById);
     } catch (error) {
-      console.log(error);
-
       return next(error);
     }
   }
