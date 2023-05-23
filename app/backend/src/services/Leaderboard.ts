@@ -1,24 +1,45 @@
+import AwayStatusGetter from '../utils/AwayStatusGetter';
 import Teams from '../database/models/Teams';
 import IStatus from '../database/interfaces/IStatus';
-import StatusGetter from '../utils/StatusGetter';
+import HomeStatusGetter from '../utils/HomeStatusGetter';
 import MatchesService from './Matches';
 
 export default class LeaderboardService {
-  public static async getAllStatus(): Promise<IStatus[]> {
+  public static async getAllHomeStatus(): Promise<IStatus[]> {
     const allTeams = await Teams.findAll();
     const allMatches = await MatchesService.getAll('false');
 
     const allStatus = allTeams.map(({ id, teamName }) => ({
       name: teamName,
-      totalPoints: StatusGetter.totalPoints(id, allMatches),
-      totalGames: StatusGetter.totalGames(id, allMatches),
-      totalVictories: StatusGetter.totalVictories(id, allMatches),
-      totalDraws: StatusGetter.totalDraws(id, allMatches),
-      totalLosses: StatusGetter.totalLosses(id, allMatches),
-      goalsFavor: StatusGetter.goalsFavor(id, allMatches),
-      goalsOwn: StatusGetter.goalsOwn(id, allMatches),
-      goalsBalance: StatusGetter.goalsBalance(),
-      efficiency: StatusGetter.efficiency(),
+      totalPoints: HomeStatusGetter.totalPoints(id, allMatches),
+      totalGames: HomeStatusGetter.totalGames(id, allMatches),
+      totalVictories: HomeStatusGetter.totalVictories(id, allMatches),
+      totalDraws: HomeStatusGetter.totalDraws(id, allMatches),
+      totalLosses: HomeStatusGetter.totalLosses(id, allMatches),
+      goalsFavor: HomeStatusGetter.goalsFavor(id, allMatches),
+      goalsOwn: HomeStatusGetter.goalsOwn(id, allMatches),
+      goalsBalance: HomeStatusGetter.goalsBalance(),
+      efficiency: HomeStatusGetter.efficiency(),
+    })).sort((a, b) => LeaderboardService.conditional(a, b));
+
+    return allStatus;
+  }
+
+  public static async getAllAwayStatus(): Promise<IStatus[]> {
+    const allTeams = await Teams.findAll();
+    const allMatches = await MatchesService.getAll('false');
+
+    const allStatus = allTeams.map(({ id, teamName }) => ({
+      name: teamName,
+      totalPoints: AwayStatusGetter.totalPoints(id, allMatches),
+      totalGames: AwayStatusGetter.totalGames(id, allMatches),
+      totalVictories: AwayStatusGetter.totalVictories(id, allMatches),
+      totalDraws: AwayStatusGetter.totalDraws(id, allMatches),
+      totalLosses: AwayStatusGetter.totalLosses(id, allMatches),
+      goalsFavor: AwayStatusGetter.goalsFavor(id, allMatches),
+      goalsOwn: AwayStatusGetter.goalsOwn(id, allMatches),
+      goalsBalance: AwayStatusGetter.goalsBalance(),
+      efficiency: AwayStatusGetter.efficiency(),
     })).sort((a, b) => LeaderboardService.conditional(a, b));
 
     return allStatus;

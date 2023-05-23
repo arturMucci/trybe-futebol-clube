@@ -5,7 +5,12 @@ const LeaderboardRouter = express.Router();
 
 LeaderboardRouter.get(
   '/home',
-  LeaderboardController.getAllStatus,
+  LeaderboardController.getAllHomeStatus,
+);
+
+LeaderboardRouter.get(
+  '/away',
+  LeaderboardController.getAllAwayStatus,
 );
 
 export default LeaderboardRouter;
