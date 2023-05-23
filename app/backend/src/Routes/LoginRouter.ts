@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import validateToken from '../middlewares/validateToken';
 import validateLogin from '../middlewares/validateLogin';
 import LoginController from '../controllers/Login';
