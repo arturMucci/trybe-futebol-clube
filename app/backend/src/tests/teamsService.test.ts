@@ -10,7 +10,7 @@ const { expect } = chai;
 describe('01 - Testa a rota de Times "/teams"', () => {
   afterEach(() => sinon.restore());
 
-  it('01 - Testa se a rota GET/teams retorna todos os times do banco:', async  () => {
+  it('06 - Testa se a rota GET/teams retorna todos os times do banco:', async  () => {
     sinon.stub(Teams, 'findAll')
       .withArgs()
     // @ts-ignore

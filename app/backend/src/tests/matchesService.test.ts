@@ -23,7 +23,7 @@ import Teams from '../database/models/Teams';
 chai.use(chaiHttp);
 chai.use(chaiAsPromised);
 
-describe('03 - Testa a camada service de "MatchesService": ', () => {
+describe('04 - Testa a camada service de "MatchesService": ', () => {
   afterEach(() => sinon.restore());
 
   it('01 - Testa um caso de sucesso do método "getAll":', async () => {

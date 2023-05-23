@@ -8,7 +8,7 @@ import allTeamsResponse from './mocks/responses/allTeams';
 import allTeamsCheck from './mocks/checks/allTeams';
 import oneTeamResponse from './mocks/responses/oneTeam';
 import oneTeamCheck from './mocks/checks/oneTeam';
-import Error from '../utils/Error';
+import HttpError from '../utils/HttpError';
 import { app } from '../app';
 
 const { expect } = chai;
@@ -36,9 +36,9 @@ describe('05 - Testa a camada de "TeamsController', () => {
   it('02 - Testa um caso de fracasso do método "getAll"', async () => {
     const teamServiceGetAll = sinon.stub(TeamsService, 'getAll');
 
-    const newErrorResponse = new Error(500, 'xablau');
+    const newErrorResponse = new HttpError(500, 'xablau');
 
-    const newErrorCheck = new Error(500, 'xabau');
+    const newErrorCheck = new HttpError(500, 'xabau');
     teamServiceGetAll.throws(newErrorResponse);
 
     try {
@@ -64,9 +64,9 @@ describe('05 - Testa a camada de "TeamsController', () => {
   it('04 - Testa um caso de fracasso do método "getById"', async () => {
     const teamServiceGetById = sinon.stub(TeamsService, 'getById');
 
-    const newErrorResponse = new Error(404, 'Not found');
+    const newErrorResponse = new HttpError(404, 'Not found');
 
-    const newErrorCheck = new Error(404, 'Not found');
+    const newErrorCheck = new HttpError(404, 'Not found');
     teamServiceGetById.throws(newErrorResponse);
 
     try {

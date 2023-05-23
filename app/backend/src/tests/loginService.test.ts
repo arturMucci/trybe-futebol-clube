@@ -14,7 +14,7 @@ import tokenCheck from './mocks/checks/token';
 import responseUser1 from './mocks/responses/user1';
 
 import Users from '../database/models/Users';
-import Error from '../utils/Error';
+import HttpError from '../utils/HttpError';
 
 const { expect } = chai;
 
@@ -48,7 +48,7 @@ describe('02 - Testa a camada service "LoginService": ', () => {
     try {
       await LoginService.Login('emai@email.com', '123456');
     } catch (E) {
-      const error = E as Error;
+      const error = E as HttpError;
 
       expect(error.status).to.equal(401);
       expect(error.message).to.equal('Invalid email or password');
@@ -63,7 +63,7 @@ describe('02 - Testa a camada service "LoginService": ', () => {
 
     utilsVerifyToken.withArgs('valid_token').returns(1);
     // @ts-ignore
-    utilsVerifyToken.withArgs('invalid_token').throws(new Error(401, 'Token must be a valid token'));
+    utilsVerifyToken.withArgs('invalid_token').throws(new HttpError(401, 'Token must be a valid token'));
     bcryptCompare.resolves(false);
     // @ts-ignore
     usersFindByPk.withArgs(1).resolves(responseUser1);
@@ -74,7 +74,7 @@ describe('02 - Testa a camada service "LoginService": ', () => {
     try {
       await LoginService.getRole('invalid_token');
     } catch (E) {
-      const error = E as Error;
+      const error = E as HttpError;
 
       expect(error.status).to.equal(401);
       expect(error.message).to.equal('Token must be a valid token');
@@ -91,7 +91,7 @@ describe('02 - Testa a camada service "LoginService": ', () => {
     try {
       await LoginService.verifyCredentials('user@user.com', '123456');
     } catch (E) {
-      const error = E as Error;
+      const error = E as HttpError;
 
       expect(error.status).to.equal(401);
       expect(error.message).to.equal('Invalid email or password');

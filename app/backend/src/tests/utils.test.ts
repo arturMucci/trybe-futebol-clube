@@ -8,14 +8,14 @@ const { expect } = chai;
 
 import JWT from 'jsonwebtoken';
 import { generateToken, verifyToken } from '../utils/auth';
-import Error from '../utils/Error';
+import HttpError from '../utils/HttpError';
 
 const secret = process.env.JWT_SECRET || 'insecure';
 
 chai.use(chaiHttp);
 chai.use(chaiAsPromised);
 
-describe('04 - Testa as funções utilitárias', () => {
+describe('07 - Testa as funções utilitárias', () => {
   afterEach(() => sinon.restore());
 
   it('01 - Testa um caso de sucesso da função generate token', async () => {
@@ -50,12 +50,12 @@ describe('04 - Testa as funções utilitárias', () => {
 
     jwtVerify.withArgs('invalid_token', secret)
     // @ts-ignore
-      .throws(new Error(401, 'Token must be a valid token'));
+      .throws(new HttpError(401, 'Token must be a valid token'));
 
     try {
       verifyToken('invalid_token');
     } catch (e) {
-      const error = e as Error;
+      const error = e as HttpError;
       expect(error.status).to.be.equal(401);
       expect(error.message).to.be.equal('Token must be a valid token');
     }

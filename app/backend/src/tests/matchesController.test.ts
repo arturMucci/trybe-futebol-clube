@@ -20,7 +20,7 @@ const { expect } = chai;
 chai.use(chaiHttp);
 chai.use(chaiAsPromised);
 
-describe('07 - Testa a camada de "MatchesController"', () => {
+describe('03 - Testa a camada de "MatchesController"', () => {
   let chaiHttpResponse: Response;
 
   afterEach(() => sinon.restore());

@@ -5,21 +5,19 @@ import chaiHttp = require('chai-http')
 import chaiAsPromised from 'chai-as-promised';
 
 import { app } from '../app';
-import LoginController from '../controllers/Login';
 import LoginService from '../services/Login';
 import * as Auth from '../utils/auth';
 
 import tokenResponse from './mocks/responses/token';
 import Users from '../database/models/Users';
 import user1 from './mocks/responses/user1'
-import Error from '../utils/Error';
 
 const { expect } = chai;
 
 chai.use(chaiHttp);
 chai.use(chaiAsPromised);
 
-describe('06 - Testa a camada de "LoginController"', () => {
+describe('01 - Testa a camada de "LoginController"', () => {
   let chaiHttpResponse: Response;
 
   afterEach(() => sinon.restore());
