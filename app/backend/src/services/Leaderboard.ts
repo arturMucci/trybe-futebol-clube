@@ -17,8 +17,22 @@ export default class LeaderboardService {
       totalLosses: StatusGetter.totalLosses(id, allMatches),
       goalsFavor: StatusGetter.goalsFavor(id, allMatches),
       goalsOwn: StatusGetter.goalsOwn(id, allMatches),
-    }));
+      goalsBalance: StatusGetter.goalsBalance(),
+      efficiency: StatusGetter.efficiency(),
+    })).sort((a, b) => LeaderboardService.conditional(a, b));
 
     return allStatus;
+  }
+
+  public static conditional(varA: IStatus, varB: IStatus): number {
+    if (varA.totalPoints < varB.totalPoints) return 1;
+    if (varA.totalPoints > varB.totalPoints) return -1;
+    if (varA.totalVictories < varB.totalVictories) return 1;
+    if (varA.totalVictories > varB.totalVictories) return -1;
+    if (varA.goalsBalance < varB.goalsBalance) return 1;
+    if (varA.goalsBalance > varB.goalsBalance) return -1;
+    if (varA.goalsFavor < varB.goalsFavor) return 1;
+    if (varA.goalsFavor > varB.goalsFavor) return -1;
+    return 0;
   }
 }
